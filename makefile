@@ -1,6 +1,6 @@
 CFLAGS = 
 DEPS = 
-OBJ = Main.o
+OBJ = Main.o 
 
 %.o: %.c $(DEPS)
 	g++ -c -o $@ $< $(CFLAGS)
