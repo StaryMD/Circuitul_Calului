@@ -1,6 +1,7 @@
 {
 	"files.associations": {
 		"algorithm": "cpp",
-		"compare": "cpp"
+		"compare": "cpp",
+		"utility": "cpp"
 	}
 }
