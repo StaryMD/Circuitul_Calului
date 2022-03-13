@@ -1,8 +1,8 @@
 CFLAGS = 
-DEPS = 
-OBJ = Main.o 
+DEPS = Board.hpp Option.hpp Vector.hpp
+OBJ = Main.o Board.o Option.o
 
-%.o: %.c $(DEPS)
+%.o: %.cpp $(DEPS)
 	g++ -c -o $@ $< $(CFLAGS)
 
 runme: $(OBJ)
@@ -11,5 +11,5 @@ runme: $(OBJ)
 .PHONY: clean
 
 clean:
-	rm *.o
-	rm implem/*.o
+	rm -rf *.o
+	rm runme
