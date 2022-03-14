@@ -33,10 +33,10 @@
 
 # Executables
 *.exe
-*.out
+*.out] '
 *.app
 
-# Out changes
+# Our changes
 runme
 
 # End of https://www.toptal.com/developers/gitignore/api/c++

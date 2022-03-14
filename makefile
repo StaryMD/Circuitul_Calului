@@ -1,12 +1,16 @@
+# File structure
+SRCS = Main.cpp Board.cpp Option.cpp
 CFLAGS = -I header
-OBJ = Main.o Board.o Option.o
 
-VPATH = src:../header
+# don't touch or I'll steal your kneecaps
+OBJS = $(SRCS:.cpp=.o)
+VPATH = src
 
+# black magic
 %.o: %.cpp
 	g++ -c -o $@ $< $(CFLAGS)
 
-runme: $(OBJ)
+runme: $(OBJS)
 	g++ -o $@ $^ $(CFLAGS)
 
 .PHONY: clean
