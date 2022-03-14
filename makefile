@@ -1,8 +1,9 @@
-CFLAGS = 
-DEPS = Board.hpp Option.hpp Vector.hpp
+CFLAGS = -I header
 OBJ = Main.o Board.o Option.o
 
-%.o: %.cpp $(DEPS)
+VPATH = src:../header
+
+%.o: %.cpp
 	g++ -c -o $@ $< $(CFLAGS)
 
 runme: $(OBJ)
@@ -11,5 +12,5 @@ runme: $(OBJ)
 .PHONY: clean
 
 clean:
-	rm -rf *.o
-	rm runme
+	rm -r -f *.o
+	rm -f runme
