@@ -14,13 +14,14 @@ class Board {
 	uint32 size;
 	Position horse;
 	uint32 move_count;
+	uint8 *table_pos;
 
 public:
 	Board(uint32);
 	~Board();
 
 	void init(const int, const int);
-	void update();
+	bool update();
 	void advance_option();
 
 	void update_till_death();
@@ -36,13 +37,13 @@ public:
 		return out;
 	}
 
-	inline bool is_inside(const Position &new_horse) {
-		return new_horse.x >= 0u && new_horse.x < size &&
-			   new_horse.y >= 0u && new_horse.y < size;
+	inline bool is_inside(const Position &position) {
+		return position.x >= 0u && position.x < size &&
+			   position.y >= 0u && position.y < size;
 	}
 
-	inline bool is_visited(const Position &new_horse) {
-		return table[new_horse.y * size + new_horse.x] != 0u;
+	inline bool is_visited(const Position &position) {
+		return table[position.y * size + position.x] != 0u;
 	}
 
 	inline bool is_full() {
@@ -54,7 +55,7 @@ public:
 	}
 
 private:
-	const Position possible_moves[8] = {
+	const Position relative_moves[8] = {
 		{ -1, -2 },
 		{  1, -2 },
 		{  2, -1 },
