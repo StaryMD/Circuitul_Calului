@@ -38,11 +38,11 @@ void Board::init(const int x, const int y) {
 
 bool Board::update() {
 	// Calculeaza numarul minim de posibilitati dintre mutarile posibile
-	uint8 min = 8u;
+	uint8 min = 9u;
 	for (const Position& move : relative_moves) {
 		Position new_horse = horse + move;
 		
-		if (is_inside(new_horse))
+		if (is_inside(new_horse) && !is_visited(new_horse))
 			min = std::min(min, table_pos[new_horse.y * size + new_horse.x]);
 	}
 
@@ -60,7 +60,10 @@ bool Board::update() {
 }
 
 void Board::update_till_death() {
-	while (update());
+	int i=0;
+	while (i<10 && update()){
+		++i;
+	}
 }
 
 void Board::advance_option() {

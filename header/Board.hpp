@@ -29,7 +29,7 @@ public:
 	friend std::ostream &operator <<(std::ostream &out, const Board &board) {
 		for (uint32 y = 0u; y < board.size; y++) {
 			for (uint32 x = 0u; x < board.size; x++) {
-				out << std::setw(3) << (int)board.table[y * board.size + x];
+				out << std::setw(3) << (int)board.table_pos[y * board.size + x];
 			}
 			out << '\n';
 		}

@@ -5,8 +5,8 @@
 #define MAXCOMB 40320
 int main() {
 	Board board(8);
-
-	for (int i = 0; i < 10; i++) {
+	std::cout << board << "\n";
+	/*for (int i = 0; i < 10; i++) {
 		board.init(3, 3);
 
 		board.update_till_death();
@@ -14,7 +14,7 @@ int main() {
 			std::cout << board << '\n';
 		
 		board.advance_option();
-	}
+	}*/
 
 	return 0;
 }
