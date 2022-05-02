@@ -4,19 +4,26 @@
 #include "Vector2.hpp"
 #include "data_types.hpp"
 
-Board::Board(uint32 size_ = 8) {
+Board::Board(uint32 size_) {
 	size = size_;
-	table = new uint8[size * size];
-	table_pos = new uint8[size * size];
+	move_count_max = size * size;
 
-	for (uint32 i = 0u; i < size; i++){
-		for (uint32 j = 0u; j < size; j++){
-			Position pos(i,j);
-			table_pos[pos.y * size + pos.x] = 0u;
+	table = new(std::nothrow) uint8[size * size];
+	if (table == nullptr)
+		std::cout << "Error: Memory allocation failed\n";
+
+	table_pos = new(std::nothrow) uint8[size * size];
+	if (table_pos == nullptr)
+		std::cout << "Error: Memory allocation failed\n";
+
+	for (uint32 i = 0u; i < size; i++) {
+		for (uint32 j = 0u; j < size; j++) {
+			Position idx(i, j);
+			table_pos[idx.y * size + idx.x] = 0u;
 
 			for (const Position rel_move : relative_moves)
-				if (is_inside(pos + rel_move))
-					table_pos[pos.y * size + pos.x]++;
+				if (is_inside(idx + rel_move))
+					table_pos[idx.y * size + idx.x]++;
 		}
 	}
 }
@@ -28,7 +35,7 @@ Board::~Board() {
 
 void Board::init(const int x, const int y) {
 	// Initilizam tabla la 0
-	move_count = 1;
+	move_count = 1u;
 	std::fill(table, table + size * size, 0u);
 
 	// Marcam pozitia de inceput a calului
@@ -38,7 +45,8 @@ void Board::init(const int x, const int y) {
 
 bool Board::update() {
 	// Calculeaza numarul minim de posibilitati dintre mutarile posibile
-	uint8 min = 9u;
+
+	uint8 min = 8u;
 	for (const Position& move : relative_moves) {
 		Position new_horse = horse + move;
 		
@@ -47,11 +55,11 @@ bool Board::update() {
 	}
 
 	// Incercam mutarea
-	for (const uint8& pos : option.perm) {
-		Position new_horse = horse + relative_moves[pos];
+	for (const uint8& idx : option.perm) {
+		Position new_horse = horse + relative_moves[idx];
 
-		if (is_inside(new_horse) && table_pos[new_horse.y * size + new_horse.x] == min) {
-			horse = new_horse;
+		if (is_inside(new_horse) && !is_visited(new_horse) && table_pos[new_horse.y * size + new_horse.x] == min) {
+			horse = new_horse;	
 			table[horse.y * size + horse.x] = ++move_count;
 			return true;
 		}
@@ -60,10 +68,7 @@ bool Board::update() {
 }
 
 void Board::update_till_death() {
-	int i=0;
-	while (i<10 && update()){
-		++i;
-	}
+	while (update());
 }
 
 void Board::advance_option() {

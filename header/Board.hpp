@@ -7,14 +7,16 @@
 #include "data_types.hpp"
 
 class Board {
-	typedef Vector2<int> Position;
+	typedef Vector2<int32> Position;
+
+	uint32 size;
+	uint8 *table;
+	uint8 *table_pos;
 
 	Option option;
-	uint8 *table;
-	uint32 size;
 	Position horse;
 	uint32 move_count;
-	uint8 *table_pos;
+	uint32 move_count_max;
 
 public:
 	Board(uint32);
@@ -29,7 +31,7 @@ public:
 	friend std::ostream &operator <<(std::ostream &out, const Board &board) {
 		for (uint32 y = 0u; y < board.size; y++) {
 			for (uint32 x = 0u; x < board.size; x++) {
-				out << std::setw(3) << (int)board.table_pos[y * board.size + x];
+				out << std::setw(3) << (int)board.table[y * board.size + x];
 			}
 			out << '\n';
 		}
@@ -47,11 +49,11 @@ public:
 	}
 
 	inline bool is_full() {
-		return move_count == size * size;
+		return move_count == move_count_max;
 	}
 
-	inline bool is_completed() {
-		return option.passed_max_perm() == true;
+	inline bool exhausted_options() {
+		return option.exhausted_perm_count();
 	}
 
 private:
@@ -63,6 +65,6 @@ private:
 		{  1,  2 },
 		{ -1,  2 },
 		{ -2,  1 },
-		{ -2, -1 }
+		{ -2, -1 },
 	};
 };

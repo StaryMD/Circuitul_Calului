@@ -1,8 +1,7 @@
-# File structure
-SRCS = Main.cpp Board.cpp Option.cpp
 CFLAGS = -I header
 
 # don't touch or I'll steal your kneecaps
+SRCS = $(wildcard src/*.cpp)
 OBJS = $(SRCS:.cpp=.o)
 VPATH = src
 
@@ -16,5 +15,5 @@ runme: $(OBJS)
 .PHONY: clean
 
 clean:
-	rm -r -f *.o
+	rm -f src/*.o
 	rm -f runme

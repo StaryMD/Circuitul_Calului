@@ -10,8 +10,9 @@ Option::Option() {
 
 void Option::init() {
 	// Initilizam cu permutarea 01234567
-	for (int i = 0; i < 8; i++)
-		perm[i] = i;
+	for (uint8 val = 0u; uint8& elem: perm)
+		elem = val++;
+	
 	perm_count = 0u;
 }
 
@@ -30,11 +31,7 @@ void Option::next() {
 }
 
 void Option::print() {
-	for (int i = 0; i < 8; i++)
-		std::cout << perm[i] + 1;
+	for (const uint32 i: perm)
+		std::cout << i + 1;
 	std::cout << '\n';
-}
-
-bool Option::passed_max_perm() {
-	return perm_count >= 40320u;
 }

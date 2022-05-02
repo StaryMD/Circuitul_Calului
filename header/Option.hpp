@@ -9,8 +9,11 @@ struct Option {
 
 	void init();
 	void next();
-	bool passed_max_perm();
 
 	void print();
+
+	inline bool exhausted_perm_count() {
+		return perm_count == 40320u;
+	}
 
 };
