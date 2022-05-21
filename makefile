@@ -1,4 +1,4 @@
-CFLAGS = -I header
+CFLAGS = -std=c++20 -I header
 
 # don't touch or I'll steal your kneecaps
 SRCS = $(wildcard src/*.cpp)
@@ -9,11 +9,14 @@ VPATH = src
 %.o: %.cpp
 	g++ -c -o $@ $< $(CFLAGS)
 
-runme: $(OBJS)
+cal: $(OBJS)
 	g++ -o $@ $^ $(CFLAGS)
 
 .PHONY: clean
 
+clear:
+	rm -f src/*.o
+
 clean:
 	rm -f src/*.o
-	rm -f runme
+	rm -f cal
