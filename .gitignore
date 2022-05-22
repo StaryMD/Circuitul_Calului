@@ -37,6 +37,8 @@
 *.app
 
 # Our changes
+cal
 runme
+boards/*
 
 # End of https://www.toptal.com/developers/gitignore/api/c++

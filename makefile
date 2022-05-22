@@ -1,4 +1,4 @@
-CFLAGS = -std=c++20 -I header
+CFLAGS = -Ofast -std=c++20 -I header
 
 # don't touch or I'll steal your kneecaps
 SRCS = $(wildcard src/*.cpp)

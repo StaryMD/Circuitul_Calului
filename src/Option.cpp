@@ -2,7 +2,6 @@
 
 #include <iostream>
 #include <algorithm>
-#include "data_types.hpp"
 
 Option::Option() {
 	init();
@@ -10,16 +9,16 @@ Option::Option() {
 
 void Option::init() {
 	// Initilizam cu permutarea 01234567
-	for (uint8 val = 0u; uint8& elem: perm)
+	for (int val = 0; int& elem: perm)
 		elem = val++;
 	
-	perm_count = 0u;
+	perm_count = 0;
 }
 
 void Option::next() {
-	uint8* last = perm + 8;
-	uint8* it = last - 1;
-	uint8* jt = last;
+	int* last = perm + 8;
+	int* it = last - 1;
+	int* jt = last;
 
 	while (*it < *--it);
 	while (*it >= *--jt);
@@ -31,7 +30,23 @@ void Option::next() {
 }
 
 void Option::print() {
-	for (const uint32 i: perm)
+	for (const int i: perm)
 		std::cout << i + 1;
 	std::cout << '\n';
+}
+
+int Option::to_integer() {
+	int ans = 0;
+	
+	for (int i = 0; int elem: perm)
+		ans |= elem << (i++ * 3);
+	
+	return ans;
+}
+
+void Option::from_integer(int val) {
+	for (int& elem: perm) {
+		elem = val & 0b111;
+		val >>= 3;
+	}
 }

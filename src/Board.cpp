@@ -2,41 +2,45 @@
 
 #include <algorithm>
 #include "Vector2.hpp"
-#include "data_types.hpp"
 
-Board::Board(uint32 size_) {
+Board::Board() {
+	static Position static_relative_moves[8] = {
+		{ -1, -2 },
+		{  1, -2 },
+		{  2, -1 },
+		{  2,  1 },
+		{  1,  2 },
+		{ -1,  2 },
+		{ -2,  1 },
+		{ -2, -1 },
+	};
+	for (int i = 0; Position& rel_move: relative_moves) {
+		rel_move = static_relative_moves[i++];
+	}
+	move_count = 0;
+}
+
+Board::Board(int size_) : Board() {
 	size = size_;
 	move_count_max = size * size;
 
-	table = new(std::nothrow) uint8[size * size];
-	if (table == nullptr)
-		std::cout << "Error: Memory allocation failed\n";
+	table = std::vector<int>(size * size, 0);
+	table_pos = std::vector<int>(size * size);
 
-	table_pos = new(std::nothrow) uint8[size * size];
-	if (table_pos == nullptr)
-		std::cout << "Error: Memory allocation failed\n";
-
-	for (uint32 i = 0u; i < size; i++) {
-		for (uint32 j = 0u; j < size; j++) {
+	for (int i = 0; i < size; i++) {
+		for (int j = 0; j < size; j++) {
 			Position idx(i, j);
-			table_pos[idx.y * size + idx.x] = 0u;
 
 			for (const Position rel_move : relative_moves)
-				if (is_inside(idx + rel_move))
-					table_pos[idx.y * size + idx.x]++;
+				table_pos[idx.y * size + idx.x] += is_inside(idx + rel_move);
 		}
 	}
 }
 
-Board::~Board() {
-	delete[] table;
-	delete[] table_pos;
-}
-
 void Board::init(const int x, const int y) {
 	// Initilizam tabla la 0
-	move_count = 1u;
-	std::fill(table, table + size * size, 0u);
+	move_count = 1;
+	std::fill(table.begin(), table.end(), 0);
 
 	// Marcam pozitia de inceput a calului
 	table[y * size + x] = 1u;
@@ -46,7 +50,7 @@ void Board::init(const int x, const int y) {
 bool Board::update() {
 	// Calculeaza numarul minim de posibilitati dintre mutarile posibile
 
-	uint8 min = 8u;
+	int min = 8;
 	for (const Position& move : relative_moves) {
 		Position new_horse = horse + move;
 		
@@ -55,11 +59,11 @@ bool Board::update() {
 	}
 
 	// Incercam mutarea
-	for (const uint8& idx : option.perm) {
+	for (const int& idx : option.perm) {
 		Position new_horse = horse + relative_moves[idx];
 
 		if (is_inside(new_horse) && !is_visited(new_horse) && table_pos[new_horse.y * size + new_horse.x] == min) {
-			horse = new_horse;	
+			horse = new_horse;
 			table[horse.y * size + horse.x] = ++move_count;
 			return true;
 		}
@@ -67,10 +71,21 @@ bool Board::update() {
 	return false;
 }
 
-void Board::update_till_death() {
-	while (update());
+void Board::copy_from(const Board &b) {
+	size = b.size;
+	move_count = b.move_count;
+	move_count_max = b.move_count_max;
+	table = b.table;
+	table_pos = b.table_pos;
+	horse = b.horse;
+	option = b.option;
 }
 
-void Board::advance_option() {
-	option.next();
+int Board::move_imaginary_horse(const Position& horse) {
+	return table[horse.y * size + horse.x] = ++move_count;
+}
+
+void Board::reset_square(const Position& horse) {
+	table[horse.y * size + horse.x] = 0;
+	--move_count;
 }

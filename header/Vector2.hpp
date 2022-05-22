@@ -10,11 +10,11 @@ struct Vector2 {
 		y = y_;
 	}
 
-	inline Vector2 operator +(const Vector2 &oth) {
+	Vector2 operator +(const Vector2 &oth) {
 		return Vector2(x + oth.x, y + oth.y);
 	}
 
-	inline Vector2 operator =(const Vector2 &oth) {
+	Vector2 operator =(const Vector2 &oth) {
 		x = oth.x;
 		y = oth.y;
 		return *this;

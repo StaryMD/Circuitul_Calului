@@ -1,9 +1,8 @@
 #pragma once
-#include "data_types.hpp"
 
 struct Option {
-	uint8 perm[8];
-	uint32 perm_count;
+	int perm[8];
+	int perm_count;
 
 	Option();
 
@@ -11,9 +10,11 @@ struct Option {
 	void next();
 
 	void print();
+	int to_integer();
+	void from_integer(int);
 
-	inline bool exhausted_perm_count() {
-		return perm_count == 40320u;
+	bool exhausted_perm_count() {
+		return perm_count == 40320;
 	}
 
 };

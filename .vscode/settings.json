@@ -49,7 +49,27 @@
 		"sstream": "cpp",
 		"optional": "cpp",
 		"fstream": "cpp",
-		"cstring": "cpp"
+		"cstring": "cpp",
+		"chrono": "cpp",
+		"codecvt": "cpp",
+		"ratio": "cpp",
+		"strstream": "cpp",
+		"bitset": "cpp",
+		"cfenv": "cpp",
+		"complex": "cpp",
+		"condition_variable": "cpp",
+		"list": "cpp",
+		"map": "cpp",
+		"set": "cpp",
+		"source_location": "cpp",
+		"mutex": "cpp",
+		"semaphore": "cpp",
+		"stop_token": "cpp",
+		"thread": "cpp",
+		"cinttypes": "cpp",
+		"typeindex": "cpp",
+		"variant": "cpp",
+		"*.ipp": "cpp"
 	},
 	"C_Cpp.errorSquiggles": "Enabled"
 }
