@@ -15,6 +15,7 @@ int main(int cargs, char** args) {
 		std::string command(args[1]);
 		if (command == "algos") {
 			std::cout << "  w : warnsdorff\n";
+			std::cout << "  b : backtracking\n";
 		}
 		return 0;
 	}
