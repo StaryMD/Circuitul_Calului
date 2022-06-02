@@ -1,0 +1,9 @@
+make --dry-run --always-make --keep-going --print-directory
+make: Entering directory '/home/ion/Circuitul_Calului'
+g++ -c -o src/timer.o src/timer.cpp -Ofast -I header
+g++ -c -o src/Main.o src/Main.cpp -Ofast -I header
+g++ -c -o src/Board.o src/Board.cpp -Ofast -I header
+g++ -c -o src/Option.o src/Option.cpp -Ofast -I header
+g++ -o cal src/timer.o src/Main.o src/Board.o src/Option.o -Ofast -I header
+make: Leaving directory '/home/ion/Circuitul_Calului'
+ 
